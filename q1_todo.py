@@ -3,7 +3,9 @@ import numpy as np
 
 
 def sigmoid(X, w, b):
-    return 1 / (1 + np.exp(-(X@w+b)))
+    b_temp = np.array(X.shape[0]*[b[0]])
+    z = X @ w + b_temp
+    return 1 / (1 + np.exp(-z))
 
 
 def train_logistic_regression(X, t):
@@ -17,7 +19,7 @@ def train_logistic_regression(X, t):
 
 
     def grad(x,w,b,t):
-        z = sigmoid(x.T,w,b)
+        z = sigmoid(x,w,b)
         grad_b = (z-t)
         grad_w = (z-t)*x.T
         return grad_w,grad_b
@@ -28,7 +30,7 @@ def train_logistic_regression(X, t):
 
 
     while error >= epsilon:
-        for row_counter in range(X.shape[1]):
+        for row_counter in range(X.shape[0]):
             x = X[row_counter,:]
             grad_w,grad_b = grad(x,w,b,t[row_counter])
             
@@ -38,9 +40,6 @@ def train_logistic_regression(X, t):
 
         # Calculate the error
         error = (1/X.shape[0])*np.linalg.norm(predict_logistic_regression(X, w, b)-t)
-
-    
-
     return w, b
 
 
