@@ -1,5 +1,12 @@
 This is the second coding assignment for the introduction to machine learning algorithm by Lili Mou.
 
+MNIST Dataset:
+
+You can download it from the following link:
+
+https://www.kaggle.com/datasets/hojjatk/mnist-dataset/
+
+
 
 Utils.py:
 

@@ -84,6 +84,6 @@ decay = 0.          # weight decay
 
 
 # TODO: report 3 number, plot 2 curves
-epoch_best, acc_best,  W_best, train_losses, valid_accs = train(X_train, t_train, X_val, t_val)
+# epoch_best, acc_best,  W_best, train_losses, valid_accs = train(X_train, t_train, X_val, t_val)
 
-_, _, _, acc_test = predict(X_test, W_best, t_test)
+# _, _, _, acc_test = predict(X_test, W_best, t_test)
