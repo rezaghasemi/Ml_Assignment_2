@@ -2,17 +2,8 @@ from utils import plot_data, generate_data
 import numpy as np
 
 
-"""
-Documentation:
-
-Function generate() takes as input "A" or "B", it returns X, t.
-X is two dimensional vectors, t is the list of labels (0 or 1).    
-
-Function plot_data(X, t, w=None, bias=None, is_logistic=False, figure_name=None)
-takes as input paris of (X, t) , parameter w, and bias. 
-If you are plotting the decision boundary for a logistic classifier, set "is_logistic" as True
-"figure_name" specifies the name of the saved diagram.
-"""
+def sigmoid(X, w, b):
+    return 1 / (1 + np.exp(-(X@w+b)))
 
 
 def train_logistic_regression(X, t):
@@ -20,6 +11,35 @@ def train_logistic_regression(X, t):
     Given data, train your logistic classifier.
     Return weight and bias
     """
+    # initial w,b
+    w = np.zeros(X.shape[1]).T
+    b = np.zeros(X.shape[1]).T
+
+
+    def grad(x,w,b,t):
+        z = sigmoid(x.T,w,b)
+        grad_b = (z-t)
+        grad_w = (z-t)*x.T
+        return grad_w,grad_b
+
+    error = 1000
+    epsilon = 0.3
+    alpha = 0.1
+
+
+    while error >= epsilon:
+        for row_counter in range(X.shape[1]):
+            x = X[row_counter,:]
+            grad_w,grad_b = grad(x,w,b,t[row_counter])
+            
+            # update the parameters
+            w = w - alpha * grad_w
+            b = b - alpha * grad_b
+
+        # Calculate the error
+        error = (1/X.shape[0])*np.linalg.norm(predict_logistic_regression(X, w, b)-t)
+
+    
 
     return w, b
 
@@ -28,7 +48,9 @@ def predict_logistic_regression(X, w, b):
     """
     Generate predictions by your logistic classifier.
     """
-
+    # Evaluate Sigmoid
+    sigmoid_X = sigmoid(X,w,b)
+    t = (sigmoid_X>=0.5).astype(int)
     return t
 
 
@@ -37,7 +59,10 @@ def train_linear_regression(X, t):
     Given data, train your linear regression classifier.
     Return weight and bias
     """
-
+    X = np.concatenate((X, np.ones((X.shape[0],1))), axis=1)
+    results = np.linalg.inv(X.T @ X) @ X.T @ t
+    w = results[:-1]
+    b = results[-1]
     return w, b
 
 
@@ -45,7 +70,9 @@ def predict_linear_regression(X, w, b):
     """
     Generate predictions by your logistic classifier.
     """
-
+    # apply linear transform
+    temp = X@w+b
+    t = (temp>=0).astype(int)
     return t
 
 
@@ -53,7 +80,7 @@ def get_accuracy(t, t_hat):
     """
     Calculate accuracy,
     """
-    return acc
+    return (1/t.shape[0])*(np.linalg.norm(t-t_hat))
 
 
 def main():
