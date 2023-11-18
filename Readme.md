@@ -1,5 +1,9 @@
 This is the second coding assignment for the introduction to machine learning algorithm by Lili Mou.
 
+Setup Virtual Environment:
+
+Take a look at 'requirements.txt' for required package and versions.
+
 MNIST Dataset:
 
 You can download it from the following link:
