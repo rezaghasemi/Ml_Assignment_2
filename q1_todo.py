@@ -79,7 +79,7 @@ def get_accuracy(t, t_hat):
     """
     Calculate accuracy,
     """
-    return (1/t.shape[0])*(np.linalg.norm(t-t_hat))
+    return (1/t.shape[0])*(np.sum(t==t_hat))*100
 
 
 def main():
@@ -96,7 +96,7 @@ def main():
     X, t = generate_data("A")
     w, b = train_logistic_regression(X, t)
     t_hat = predict_logistic_regression(X, w, b)
-    print("Accuracy of linear regression on dataset A:", get_accuracy(t_hat, t))
+    print("Accuracy of logistic regression on dataset A:", get_accuracy(t_hat, t))
     plot_data(X, t, w, b, is_logistic=True,
               figure_name='dataset_A_logistic.png')
 
@@ -113,7 +113,7 @@ def main():
     X, t = generate_data("B")
     w, b = train_logistic_regression(X, t)
     t_hat = predict_logistic_regression(X, w, b)
-    print("Accuracy of linear regression on dataset B:", get_accuracy(t_hat, t))
+    print("Accuracy of logistic regression on dataset B:", get_accuracy(t_hat, t))
     plot_data(X, t, w, b, is_logistic=True,
               figure_name='dataset_B_logistic.png')
 
