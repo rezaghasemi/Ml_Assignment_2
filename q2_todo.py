@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 import numpy as np
 import struct
-import matplotlib.pyplot as plt
 
+import matplotlib.pyplot as plt
 
 def readMNISTdata():
     with open('t10k-images-idx3-ubyte', 'rb') as f:
@@ -129,4 +129,24 @@ epoch_best, acc_best,  W_best, train_losses, valid_accs = train(X_train, t_train
 
 acc_test = predict(X_test, W_best, t_test)[-1]
 
-print(acc_test)
+print(f'number of epoch that yields the best validation performance: {epoch_best}')
+print(f'validation performance (accuracy) in that epoch:{valid_accs[epoch_best-1]}')
+print(f' test performance (accuracy) in that epoch: {acc_test}')
+
+# ploting the figures
+
+plt.plot(range(1, len(train_losses)+1), train_losses, label='Training Loss')
+plt.xlabel('epochs')
+plt.ylabel('Loss')
+plt.title('Train Loss')
+plt.legend()
+plt.savefig('train_loss.png')
+plt.show()
+
+plt.plot(range(1, len(valid_accs)+1), valid_accs, label='Validation Accuracy')
+plt.xlabel('epochs')
+plt.ylabel('Accuracy')
+plt.title('Validation Accuracy')
+plt.legend()
+plt.savefig('valid_acc.png')
+plt.show()
